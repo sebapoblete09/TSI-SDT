@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Link, NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     const [isActive, setIsActive] = useState(false);
@@ -17,13 +17,13 @@ const Navbar = () => {
             </div>
             <div className={`nav-bar ${isActive ? 'active' : ''}`}>
                 <ul>
-                    <li><a href="#hero" className="active">Inicio</a></li>
-                    <li><a href="/pages/About-us.html">Sobre Nosotros</a></li>
-                    <li><a href="/pages/Menu.html">Menú</a></li>
-                    <li><a href="/pages/Reserva.html">Reservar</a></li>
-                    <li className="res2"><a href="/pages/reservas2.html">Ver mis reservas</a></li>
-                    <li><a href="/pages/Contact.html">Contacto</a></li>
-                    <li><a href="/pages/login.html">Iniciar sesión</a></li>
+                    <li><NavLink to="/" activeClassName="active">Inicio</NavLink></li>
+                    <li><NavLink  to="/about-us" activeClassName="active">Sobre Nosotros</NavLink></li>
+                    <li><NavLink  to="/menu" activeClassName="active">Menú</NavLink></li>
+                    <li><NavLink to="/reservation" activeClassName="active">Reservar</NavLink></li>
+                    <li><NavLink  to="/my-reservations" activeClassName="active">Ver mis reservas</NavLink></li>
+                    <li><NavLink  to="/contact" activeClassName="active">Contacto</NavLink></li>
+                    <li><NavLink  to="/login" activeClassName="active">Iniciar sesión</NavLink></li>
                 </ul>
             </div>
         </header>
