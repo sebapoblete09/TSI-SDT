@@ -1,7 +1,7 @@
 // App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
+import Home from './Components/Home';
 import AboutUs from './components/AboutUs';
 import Menu from './components/Menu';
 import Reservation from './components/Reservation';

@@ -1,13 +1,20 @@
 // Home.jsx
 import React from 'react';
 
+
 function Home() {
   return (
     <div>
-      <h1>Pagina de inicio</h1>
-      <p>Descubre nuestros sabores únicos y tradicionales</p>
-      {/* Agrega más contenido y estilo aquí */}
+      <section id="hero">
+        <h1>Sabores de la Tierra</h1>
+        <p>Donde la tradición y la pasión por la comida chilena se unen</p>
+      </section>
+
     </div>
+    
+
+
+    
   );
 }
 
