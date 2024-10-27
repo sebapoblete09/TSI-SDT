@@ -29,8 +29,23 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevenir el comportamiento por defecto del formulario
     try {
-      await signInWithEmailAndPassword(auth, correo, contraseña);
+      const userCredential = await signInWithEmailAndPassword(auth, correo, contraseña);
+
+      // Obtiene el usuario
+      const user = userCredential.user;
+      // Obtiene el UID del usuario
+      const uid = user.uid;
+      // Obtiene el token de acceso
+      const token = await user.getIdToken();
+
+      // Guarda el token en localStorage o sessionStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('uid', uid);
+      console.log("Token guardado en localStorage:", token);
       console.log("Inicio de sesión exitoso");
+      alert("Inicio de sesion Exitoso"); // Mensaje de éxito
+      window.location.reload();  
+      
       // Aquí puedes redirigir al usuario a otra página
     } catch (error) {
       console.error("Error al iniciar sesión:", error.message);
@@ -49,7 +64,7 @@ function Login() {
       nombre: nombre,
       apellido: apellido,
       correo: correo,
-      numeroTelefono: telefono,
+      telefono: telefono,
     });
       console.log("Registro exitoso:", userCredential.user);
       alert("Registro exitoso! Bienvenido, " + nombre); // Mensaje de éxito
@@ -64,14 +79,30 @@ function Login() {
     }
   };
 
+  //inicio de sesion con google
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
-      console.log("Inicio de sesión con Google exitoso:", result.user);
       
-      // Obtiene los datos del usuario
+      const result = await signInWithPopup(auth, provider);
+
+      // Obtiene el usuario
       const user = result.user;
+      // Obtiene el UID del usuario
+      const uid = user.uid;
+      // Obtiene el token de acceso
+      const token = await user.getIdToken();
+    
+
+      // Guarda el token en localStorage o sessionStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('uid', uid);
+      console.log("Token guardado en localStorage:", token);
+      console.log("Inicio de sesión con Google exitoso:", result.user);
+      alert("Inicio de sesion exitoso"); // Mensaje de éxito
+      window.location.reload();  
+      
+      
       const userRef = doc(db, 'clientes', user.uid);
 
       // Verifica si el usuario ya tiene datos en Firestore

@@ -1,7 +1,7 @@
 // Home.jsx
 import React from 'react';
 
-function Home() {
+function Menu() {
   return (
     <div>
       <h1>Pagina menu</h1>
@@ -11,4 +11,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Menu;

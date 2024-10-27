@@ -11,10 +11,6 @@ function Home() {
       </section>
 
     </div>
-    
-
-
-    
   );
 }
 
