@@ -1,7 +1,7 @@
 // Login.jsx
 import React, { useState } from 'react';
 import { auth } from '../firebase/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendEmailVerification } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore'; 
 import { db } from '../firebase/firebase'; 
 import '../styles/login.css';
@@ -33,6 +33,14 @@ function Login() {
 
       // Obtiene el usuario
       const user = userCredential.user;
+
+      // Verifica si el correo está confirmado
+    if (!user.emailVerified) {
+      alert("Por favor, verifica tu correo electrónico antes de iniciar sesión.");
+      return; // Sale de la función si el correo no está verificado
+    }
+
+
       // Obtiene el UID del usuario
       const uid = user.uid;
       // Obtiene el token de acceso
@@ -46,9 +54,15 @@ function Login() {
       alert("Inicio de sesion Exitoso"); // Mensaje de éxito
       window.location.reload();  
       
-      // Aquí puedes redirigir al usuario a otra página
     } catch (error) {
-      console.error("Error al iniciar sesión:", error.message);
+      if (error.code === 'auth/user-not-found') {
+        alert("Usuario no registrado. Regístrate primero.");
+      } else if (error.code === 'auth/wrong-password') {
+        alert("Contraseña incorrecta.");
+      } else {
+        console.error("Error al iniciar sesión:", error);
+        alert(`Error al iniciar sesión: ${error.message}`);
+      }
     }
   };
 
@@ -58,14 +72,27 @@ function Login() {
     e.preventDefault(); // Prevenir el comportamiento por defecto del formulario
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, correo, contraseña);
+      const user = userCredential.user;
+
+       // Enviar correo de verificación
+      await sendEmailVerification(user);
+      alert("¡Registro exitoso! Se ha enviado un correo de verificación. Por favor, verifica tu correo.");
+
       // Aquí guardamos la información adicional en Firestore
-      const userRef = doc(db, 'clientes', userCredential.user.uid); // Crea una referencia a un documento en Firestore usando el UID del usuario
+      const userRef = doc(db, 'clientes', user.uid); // Crea una referencia a un documento en Firestore usando el UID del usuario
       await setDoc(userRef, {
-      nombre: nombre,
-      apellido: apellido,
-      correo: correo,
-      telefono: telefono,
+      nombre,
+      apellido,
+      correo,
+      telefono,
     });
+      // Limpia los campos del formulario
+      setNombre('');
+      setApellido('');
+      settelefono('');
+      setCorreo('');
+      setContraseña('');
+
       console.log("Registro exitoso:", userCredential.user);
       alert("Registro exitoso! Bienvenido, " + nombre); // Mensaje de éxito
       setNombre('');
@@ -78,62 +105,63 @@ function Login() {
       alert(`Error al registrarse: ${error.message}`); // Muestra un mensaje al usuario
     }
   };
-
-  //inicio de sesion con google
+  
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      
-      const result = await signInWithPopup(auth, provider);
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        const uid = user.uid;
+        const token = await user.getIdToken();
 
-      // Obtiene el usuario
-      const user = result.user;
-      // Obtiene el UID del usuario
-      const uid = user.uid;
-      // Obtiene el token de acceso
-      const token = await user.getIdToken();
-    
+        localStorage.setItem('token', token);
+        localStorage.setItem('uid', uid);
+        console.log("Token guardado en localStorage:", token);
+        console.log("Inicio de sesión con Google exitoso:", result.user);
+        alert("Inicio de sesión exitoso");
 
-      // Guarda el token en localStorage o sessionStorage
-      localStorage.setItem('token', token);
-      localStorage.setItem('uid', uid);
-      console.log("Token guardado en localStorage:", token);
-      console.log("Inicio de sesión con Google exitoso:", result.user);
-      alert("Inicio de sesion exitoso"); // Mensaje de éxito
-      window.location.reload();  
-      
-      
-      const userRef = doc(db, 'clientes', user.uid);
-
-      // Verifica si el usuario ya tiene datos en Firestore
-      const docSnap = await getDoc(userRef);
-      if (!docSnap.exists()) {
-        // Si no tiene datos, pide el número de teléfono
-        setIsGoogleUser(true); // Muestra el formulario para ingresar el número de teléfono
-      }
+        const userRef = doc(db, 'clientes', user.uid);
+        const docSnap = await getDoc(userRef);
+        
+        if (!docSnap.exists()) {
+            // Si no tiene datos, pide el número de teléfono
+            setIsGoogleUser(true); // Muestra el formulario para ingresar el número de teléfono
+        } else {
+            // Si el usuario ya existe, no pide el teléfono
+            alert("Inicio de sesión exitoso");
+            window.location.reload(); // Recarga para acceder al sistema
+        }
     } catch (error) {
-      console.error("Error al iniciar sesión con Google:", error.message);
+        console.error("Error al iniciar sesión con Google:", error.message);
     }
-  };
+};
 
-   // Manejo del formulario para guardar información adicional
-   const handleGoogleUserData = async (e) => {
+const handleGoogleUserData = async (e) => {
     e.preventDefault();
     try {
-      const user = auth.currentUser;
-      const userRef = doc(db, 'clientes', user.uid);
-      await setDoc(userRef, {
-        nombre: user.displayName,  // Nombre del usuario de Google
-        correo: user.email,        // Correo electrónico del usuario de Google
-        telefono: telefono,
-      }, { merge: true }); // Merge para no sobrescribir datos existentes
-      console.log("Datos del usuario guardados exitosamente");
-      setIsGoogleUser(false); // Cierra el formulario
-      settelefono('');
+        const user = auth.currentUser;
+        if (user) {
+            const userRef = doc(db, 'clientes', user.uid);
+            await setDoc(
+                userRef,
+                {
+                    nombre: user.displayName,
+                    correo: user.email,
+                    telefono: telefono, // Teléfono del formulario
+                },
+                { merge: true } // Usa merge para no sobrescribir campos existentes
+            );
+            console.log("Datos del usuario guardados exitosamente en Firestore");
+            alert("Datos adicionales guardados exitosamente.");
+            setIsGoogleUser(false); // Oculta el formulario después de guardar
+            settelefono(''); // Limpia el campo del teléfono
+            window.location.reload(); // Recarga la página
+        }
     } catch (error) {
-      console.error("Error al guardar los datos del usuario:", error.message);
+        console.error("Error al guardar los datos del usuario:", error.message);
+        alert(`Error al guardar los datos: ${error.message}`);
     }
-  };
+};
 
   return (
     <div className='container-form'>
@@ -186,8 +214,8 @@ function Login() {
       {isGoogleUser && (
               <form onSubmit={handleGoogleUserData}>
                 <h2>Ingresa tu número de teléfono</h2>
-                <label htmlFor="celular">Celular:</label>
-                <input type="tel" id="celular" value={telefono} onChange={(e) => settelefono(e.target.value)} maxLength="9" required />
+                <label htmlFor="telefono">Celular:</label>
+                <input type="tel" id="telefono" value={telefono} onChange={(e) => settelefono(e.target.value)} maxLength="9" required />
 
                 <div className="btns">
                   <button type="submit">Guardar Información</button>
