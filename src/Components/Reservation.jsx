@@ -12,12 +12,11 @@ function ReservationPague() {
   const [usuario, setUsuario] = useState({ nombre: '', correo: '', telefono: '' });
   const [reserva, setReserva] = useState(true);
   const [mesaSeleccionada, setMesaSeleccionada] = useState(null);
+  const [grupo, setGrupo] = useState(null);
+  const [fecha, setFecha] = useState(null);
+  const [horario, setHorario] = useState(null);
   const mesas = [1, 2, 3, 4, 5, 6];
 
-  // Crear referencias para los elementos del formulario
-  const grupoRef = useRef(null);
-  const fechaRef = useRef(null);
-  const horarioRef = useRef(null);
 
   useEffect(() => {
     const fetchUsuario = async (uid) => {
@@ -60,19 +59,17 @@ function ReservationPague() {
 
   // enviar reserva a la bd
   const handleConfrimationReserv = async () => {
-    if (mesaSeleccionada) {
+    if (mesaSeleccionada && grupo && fecha && horario) {
       try {
-        
-
         // Crea un documento en la colección "reserva" en Firestore
-        await addDoc(collection(db, "reserva"), {
+        await addDoc(collection(db, "reservas"), {
           estado: "Confirmada",
           nombre: usuario.nombre, // Usa el nombre del usuario autenticado
           correo: usuario.correo, // Usa el correo del usuario autenticado
           telefono: usuario.telefono, // Usa el teléfono del usuario autenticado
-          grupo: grupoRef.current.value, // Usar referencia
-          fecha: fechaRef.current.value, // Usar referencia
-          horario: horarioRef.current.value, // Usar referencia
+          grupo: grupo, // Usar referencia
+          fecha: fecha, // Usar referencia
+          horario: horario, // Usar referencia
           mesa: mesaSeleccionada, // Utiliza la mesa seleccionada
         });
         alert("Reservación confirmada con éxito!");
@@ -97,7 +94,7 @@ function ReservationPague() {
                 <p>Teléfono: {usuario.telefono}</p>
 
                 <label htmlFor="grupo">Tamaño del grupo:</label>
-                <select name="grupo" id="grupo" required>
+                <select name="grupo" id="grupo" required value={grupo} onChange={(e)=> setGrupo(e.target.value)}>
                   <option value="" disabled selected>Seleccione el tamaño del grupo</option>
                   <option value="1">1 persona</option>
                   <option value="2">2 personas</option>
@@ -108,10 +105,10 @@ function ReservationPague() {
                 </select>
 
                 <label htmlFor="fecha">Fecha:</label>
-                <input type="date" id='fecha' name='fecha' required />
+                <input type="date" id='fecha' name='fecha' required value={fecha} onChange={(e)=> setFecha(e.target.value)} />
 
                 <label htmlFor="horario">Horario:</label>
-                <select name="horario" id="horario" required>
+                <select name="horario" id="horario" required value={horario} onChange={(e)=> setHorario(e.target.value)}>
                   {horas.map(horario => (
                     <option key={horario.value} value={horario.label}>
                       {horario.label}
