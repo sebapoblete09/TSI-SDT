@@ -3,15 +3,13 @@ import React from 'react';
 import { useState, useEffect,} from 'react';
 import { collection, addDoc, doc, getDoc } from 'firebase/firestore'; 
 import { db } from '../firebase/firebase'; 
-import reservCard from './reserv-card';
 import '../styles/my-reserv.css';
 
-function MyReservations() {
+function reservCard() {
 
   //constantes para ver  si el usuario esta autenticado
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [usuario, setUsuario] = useState({ nombre: '', correo: '', telefono: '' });
-  const [reservas, setReservas] = useState(null);
 
   useEffect(() => {
     const fetchUsuario = async (uid) => {
@@ -54,4 +52,4 @@ function MyReservations() {
   );
 }
 
-export default MyReservations;
+export default reservCard;

@@ -1,6 +1,6 @@
 // Home.jsx
 import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect,} from 'react';
 import { collection, addDoc, doc, getDoc } from 'firebase/firestore'; 
 import { db } from '../firebase/firebase'; 
 import horas from '../const/horas';
