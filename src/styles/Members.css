@@ -1,14 +1,15 @@
-/* Members.css */
 .members-section {
-    margin: 25px;
+    padding: 40px;
     text-align: center;
+    background-color: #202020;
+    color: whitesmoke;
 }
 
 .members-container {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas más pequeñas */
-    gap: 30px; /* Espacio entre las tarjetas */
+    flex-wrap: wrap;
+    gap: 30px;
 }
 
 .member-card {
@@ -16,18 +17,21 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
-    width: 450px; /* Ancho de cada tarjeta */
+    width: 100%;
+    max-width: 450px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
+    text-align: center;
 }
 
 .member-card:hover {
-    transform: scale(1.05); /* Efecto de aumento al pasar el ratón */
+    transform: scale(1.05);
 }
 
 .member-image {
-    width: 100%; /* Asegura que la imagen ocupe todo el ancho de la tarjeta */
-    height: auto; /* Mantiene la proporción de la imagen */
+    width: 100%;
+    height: auto;
+    max-width: 150px;
     border-radius: 50%;
 }
 
@@ -41,5 +45,3 @@
     font-size: 1em;
     color: whitesmoke;
 }
-
-
