@@ -41,7 +41,7 @@ const Navbar = () => {
 
     return (
 
-        <div>
+        <div style={{ marginBottom: '100px' }}>
             {isAuthenticated ? (
                 // Si está autenticado, muestra el siguiente navbar
                 <header>

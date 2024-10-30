@@ -1,0 +1,126 @@
+/* Estilos para cada sección */
+section {
+    padding: 20px;
+    background-color: #202020;
+
+}
+
+section h2 {
+    margin-top: 0;
+    color: whitesmoke;
+}
+
+
+
+
+#history {
+    padding: 40px;
+}
+
+.history-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: space-between; /* Distribuye el espacio entre los elementos */
+}
+
+.history-image {
+    flex: 1;
+    max-width: 50%; /* Ajusta el ancho máximo de la imagen al 50% del contenedor */
+    margin-right: 20px; /* Espacio entre la imagen y el texto */
+}
+
+.history-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px; /* Añade bordes redondeados si se desea */
+}
+
+.history-text {
+    flex: 1;
+    max-width: 50%; /* Ajusta el ancho máximo del texto al 50% del contenedor */
+}
+
+.history-text h2 {
+    margin-bottom: 20px;
+    color: whitesmoke;
+}
+
+.history-text p {
+    line-height: 1.6; /* Mejora la legibilidad del texto */
+    font-size: medium;
+}
+
+/* Estilos para la sección de Misión, Visión y Valores */
+#mvv {
+    padding: 2rem;
+    text-align: center;
+}
+
+.mv-container {
+    display: flex;
+    justify-content: space-around; /* Espacio alrededor de las tarjetas */
+    flex-wrap: wrap; /* Permite que las tarjetas se muevan a la siguiente línea si la pantalla es pequeña */
+}
+
+/* Define las tarjetas */
+.Card {
+    flex: 1;
+    margin: 15px;
+    max-width: 30%; /* Ajusta el tamaño máximo de las tarjetas */
+    min-width: 250px; /* Asegura que las tarjetas no se vuelvan demasiado pequeñas */
+    background-color: #323232;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    text-align: justify;
+}
+
+#mission h3, #vision h3, #values h3 {
+    font-size: 25px;
+    margin: 10px 0;
+    text-align: center;
+    color: whitesmoke; /* Color del texto para los títulos */
+}
+
+#values ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+#values li {
+    list-style: square;
+}
+
+.Card span {
+    font-weight: bold;
+    color: #d1056b; /* Color para el texto resaltado */
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+    .mv-container {
+        flex-direction: column; /* Cambia la dirección a columna en pantallas pequeñas */
+        align-items: center; /* Centra las cartas */
+    }
+
+    .Card {
+        max-width: 100%; /* Permite que ocupen todo el ancho */
+        margin: 10px 0; /* Ajusta el margen */
+    }
+}
+
+
+#team {
+    background-color: #202020;
+    padding: 40px;
+    text-align: center;
+}
+
+
+#specialties{
+    background-color: #323232;
+}

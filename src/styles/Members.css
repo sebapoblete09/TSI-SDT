@@ -1,0 +1,45 @@
+/* Members.css */
+.members-section {
+    margin: 25px;
+    text-align: center;
+}
+
+.members-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas más pequeñas */
+    gap: 30px; /* Espacio entre las tarjetas */
+}
+
+.member-card {
+    background-color: #323232;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 450px; /* Ancho de cada tarjeta */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.member-card:hover {
+    transform: scale(1.05); /* Efecto de aumento al pasar el ratón */
+}
+
+.member-image {
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho de la tarjeta */
+    height: auto; /* Mantiene la proporción de la imagen */
+    border-radius: 50%;
+}
+
+.member-card h3 {
+    margin: 10px 0 5px;
+    font-size: 1.5em;
+    color: #e81010;
+}
+
+.member-card p {
+    font-size: 1em;
+    color: whitesmoke;
+}
+
+
