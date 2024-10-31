@@ -20,3 +20,12 @@ section {
 .AboutUs{
   margin-top: 80%;
 }
+
+main {
+  margin-top: 80px; /* Compensa la altura del header */
+}
+
+.menu-section {
+  min-height: calc(100vh - 80px); /* Resta la altura del navbar */
+  padding-bottom: 20px;
+}

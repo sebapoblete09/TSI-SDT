@@ -1,0 +1,50 @@
+.menu-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .menu-buttons button {
+    font-size: 1em;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #e81010;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .menu-buttons button:hover {
+    background-color: #323232;
+  }
+  
+  .menu-buttons button:focus {
+    outline: none;
+    background-color: #d1056b;
+  }
+  
+  .menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Los otros estilos existentes */
+  .menuItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #746743;
+    padding: 20px 0;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para la sección de descarga */
+  .downloadMenu-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
+  
